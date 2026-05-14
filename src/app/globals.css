@@ -1,0 +1,434 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   GLOBAL STYLES - SUNAN MOTOTRACK
+   ============================================================ */
+
+:root {
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+  --safe-left: env(safe-area-inset-left);
+  --safe-right: env(safe-area-inset-right);
+  --app-max-width: 480px;
+  --nav-height: 64px;
+  --header-height: 56px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Scroll ada di html level */
+  height: 100%;
+}
+
+body {
+  background-color: #f3f4f6;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+  /* JANGAN overflow:hidden di body — ini yang bikin tidak bisa scroll */
+  overflow: hidden;
+  height: 100%;
+  height: 100dvh;
+  -webkit-overflow-scrolling: touch;
+}
+
+html.dark body {
+  background-color: #111827;
+}
+
+/* ============================================================
+   APP SHELL — wrapper utama
+   ============================================================ */
+.app-shell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--app-max-width);
+  height: 100dvh;
+  margin: 0 auto;
+  background: white;
+  overflow: hidden; /* clip di sini, bukan di body */
+}
+
+html.dark .app-shell {
+  background: #111827;
+}
+
+/* Area konten yang bisa di-scroll */
+.app-main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  /* Padding bawah = nav + safe area */
+  padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + 8px);
+}
+
+/* ============================================================
+   SCROLLBAR HIDE
+   ============================================================ */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ============================================================
+   SAFE AREA UTILITIES
+   ============================================================ */
+.pt-safe { padding-top: env(safe-area-inset-top); }
+.pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+/* ============================================================
+   INPUT STYLES
+   ============================================================ */
+.input-field {
+  @apply w-full px-4 py-3 rounded-xl border border-gray-200 outline-none transition-colors duration-150 bg-white text-gray-800;
+  font-size: 16px !important; /* Mencegah zoom iOS */
+}
+
+.input-field:focus {
+  @apply border-brand-500 ring-2 ring-brand-500/20;
+}
+
+html.dark .input-field {
+  @apply bg-gray-700 border-gray-600 text-gray-100;
+}
+
+html.dark .input-field:focus {
+  @apply border-brand-400 ring-brand-400/20;
+}
+
+/* ============================================================
+   BUTTON STYLES
+   ============================================================ */
+.btn-primary {
+  @apply w-full bg-brand-600 active:bg-brand-800 text-white font-bold py-3.5 px-4 rounded-xl transition-colors duration-150 shadow-md flex justify-center items-center gap-2;
+  touch-action: manipulation;
+}
+
+.btn-danger {
+  @apply w-full bg-red-600 active:bg-red-800 text-white font-bold py-3.5 px-4 rounded-xl transition-colors duration-150 shadow-md flex justify-center items-center gap-2;
+  touch-action: manipulation;
+}
+
+/* ============================================================
+   CARD STYLES — tanpa efek scale/bounce
+   ============================================================ */
+.card {
+  @apply bg-white rounded-2xl shadow-sm border border-gray-100;
+}
+
+html.dark .card {
+  @apply bg-gray-800 border-gray-700;
+}
+
+/* Card yang bisa diklik */
+.card-pressable {
+  @apply bg-white rounded-2xl shadow-sm border border-gray-100;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.1s ease;
+}
+
+.card-pressable:active {
+  @apply bg-gray-50;
+}
+
+html.dark .card-pressable {
+  @apply bg-gray-800 border-gray-700;
+}
+
+html.dark .card-pressable:active {
+  @apply bg-gray-700;
+}
+
+/* ============================================================
+   ANIMASI — lengkap dan smooth
+   ============================================================ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInFast {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-mic {
+  0%   { box-shadow: 0 0 0 0 rgba(239,68,68,0.6); }
+  70%  { box-shadow: 0 0 0 14px rgba(239,68,68,0); }
+  100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+}
+
+@keyframes bounceIn {
+  0%   { opacity: 0; transform: scale(0.3); }
+  50%  { opacity: 1; transform: scale(1.05); }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes cardPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+/* Page swipe navigation */
+@keyframes pageSwipeOutLeft {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-24px); }
+}
+
+@keyframes pageSwipeOutRight {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(24px); }
+}
+
+@keyframes pageSwipeIn {
+  from { opacity: 0; transform: translateX(0); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Transition masuk dari PIN ke dashboard */
+@keyframes appEnter {
+  0%   { opacity: 0; transform: translateY(32px) scale(0.97); filter: blur(4px); }
+  60%  { opacity: 1; filter: blur(0px); }
+  80%  { transform: translateY(-4px) scale(1.005); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+}
+
+.animate-fade-in      { animation: fadeIn 0.25s ease forwards; }
+.animate-fade-in-fast { animation: fadeInFast 0.15s ease forwards; }
+.animate-slide-up     { animation: slideUp 0.25s ease forwards; }
+.animate-slide-right  { animation: slideInRight 0.25s ease forwards; }
+.animate-slide-left   { animation: slideInLeft 0.25s ease forwards; }
+.animate-scale-in     { animation: scaleIn 0.2s ease forwards; }
+.animate-bounce-in    { animation: bounceIn 0.4s ease forwards; }
+.animate-pulse-mic    { animation: pulse-mic 1.4s infinite; }
+.animate-app-enter    { animation: appEnter 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+/* Stagger children */
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 60ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 120ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 180ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 240ms; }
+
+/* Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 0.5rem;
+}
+html.dark .skeleton {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+}
+
+/* ============================================================
+   FOTO THUMBNAIL GRID (draggable)
+   ============================================================ */
+.foto-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+@media (min-width: 380px) {
+  .foto-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.foto-thumb-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 2px solid #e5e7eb;
+  background: #f9fafb;
+  cursor: grab;
+  user-select: none;
+  transition: border-color 0.15s, opacity 0.15s;
+  will-change: transform;
+}
+
+.foto-thumb-item:active { cursor: grabbing; }
+
+.foto-thumb-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.foto-thumb-item:first-child { border-color: #4f46e5; }
+
+.foto-thumb-dragover {
+  border-color: #4f46e5 !important;
+  opacity: 0.75;
+}
+
+html.dark .foto-thumb-item { border-color: #4b5563; background: #374151; }
+html.dark .foto-thumb-item:first-child { border-color: #818cf8; }
+
+/* ============================================================
+   CAMERA OVERLAY
+   ============================================================ */
+.camera-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px);
+  background-size: 33.33% 33.33%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ============================================================
+   VOICE BUTTON
+   ============================================================ */
+.voice-btn {
+  background: linear-gradient(135deg, #4f46e5, #3b82f6);
+  color: white;
+  border-radius: 9999px;
+  box-shadow: 0 4px 12px rgba(79,70,229,0.35);
+  transition: box-shadow 0.2s;
+}
+
+.voice-btn.recording {
+  animation: pulse-mic 1.4s infinite;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  box-shadow: 0 4px 12px rgba(239,68,68,0.4);
+}
+
+/* ============================================================
+   BOTTOM NAV
+   ============================================================ */
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  color: #6b7280;
+  font-size: 0.68rem;
+  transition: color 0.15s;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  flex: 1;
+  min-width: 0;
+}
+
+.bottom-nav-item.active { color: #4f46e5; font-weight: 600; }
+html.dark .bottom-nav-item { color: #9ca3af; }
+html.dark .bottom-nav-item.active { color: #818cf8; }
+
+/* ============================================================
+   PROFIT / LOSS BADGE
+   ============================================================ */
+.badge-profit { @apply bg-green-50 text-green-700 border border-green-200; }
+.badge-loss   { @apply bg-red-50 text-red-700 border border-red-200; }
+html.dark .badge-profit { @apply bg-green-900/20 text-green-400 border-green-800; }
+html.dark .badge-loss   { @apply bg-red-900/20 text-red-400 border-red-800; }
+
+/* ============================================================
+   LOADING SPINNER
+   ============================================================ */
+.spinner {
+  border: 3px solid rgba(79,70,229,0.15);
+  border-top-color: #4f46e5;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ============================================================
+   CURRENCY INPUT PREFIX
+   ============================================================ */
+.currency-wrapper { position: relative; }
+
+.currency-prefix {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  font-weight: 500;
+  pointer-events: none;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.input-field.with-prefix {
+  padding-left: 2.5rem;
+  font-weight: 600;
+}
+
+/* ============================================================
+   IMAGE UPLOAD (legacy — masih dipakai di beberapa tempat)
+   ============================================================ */
+.upload-btn {
+  border: 2px dashed #d1d5db;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  cursor: pointer;
+  color: #6b7280;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  background: #f9fafb;
+  touch-action: manipulation;
+}
+
+.upload-btn:active {
+  border-color: #4f46e5;
+  color: #4f46e5;
+  background: #eef2ff;
+}
+
+html.dark .upload-btn {
+  background: #374151;
+  border-color: #4b5563;
+  color: #9ca3af;
+}
